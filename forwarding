@@ -1,0 +1,622 @@
+Delivered-To: hello@pixc.com
+Received: by 2002:ab4:ab92:0:0:0:0:0 with SMTP id ga18csp461687ecb;
+        Wed, 18 Aug 2021 12:39:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzO0vceI2wzS+ineSe9ce+pBZOKm3xadL9jSTXvefN1VT443zJy4M7hrT6tE/IuGKAvJw4+
+X-Received: by 2002:a17:902:aa86:b029:116:3e3a:2051 with SMTP id d6-20020a170902aa86b02901163e3a2051mr8657428plr.38.1629315589250;
+        Wed, 18 Aug 2021 12:39:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1629315589; cv=none;
+        d=google.com; s=arc-20160816;
+        b=0jkJZJw9rFDMehUQh1wqWdZ/zIrppFWbwzbCLm7Vfd9R8No9vz8h2kwEdSlI6+OBKq
+         fUYZGBm1x+9FRp2spfb5x3NVHVxnfu/if66O7vqUBEOyYw/3dhLiC4E0ZJikLQ3GBHK1
+         /f2AqVjbJ5ugEWxf2Qxvz6VqHlcnxfLk0N9D5cAC7rXVNbSwzpFkowNO6BUsIqAbxsPp
+         LWaSmlbeeYnhUVZIGjYauiyFcdmMnyZpH1eq+8D9VfK2pLe+tzdCMXQ1r6MZrCjjgVQP
+         tb+Kt+y3d0POURgPU8mCo+H2yJUb6uw0Firbbo8EKJfSH9cmK/oH29jX6MaAorN5Q0GK
+         N/Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:to:reply-to:mime-version:subject
+         :message-id:from:date:dkim-signature;
+        bh=0m+ynqaJeziBhpXkCw1yK26Dcp/JhbWK+ODq3KKJ7jc=;
+        b=KAaq2MKVAS4RFei3xfF6F3u0BftQcBb7bMyhjDbLF+dTSWvV3yp0D8SQ4SIjYD00up
+         0f2yzOAGCniSfvYpKdYju6XZyqmFzhOH/b5he31QsRynre6lSS0uXWy1w7DIgJhP2Wun
+         3iUreb4JOHzV9HIGJSwB36jSTMJiiMpiv41fAh9M9aqCqHJhNBHMM0+a/N3vcnZ5Fynb
+         kj26RB61SXYlhNKhKm89e+JDMz5hVKvFdUhR+QOTPuzh8n99H12JYSZgnONb3JmFk4gK
+         eQ4wNlwu6klc1wZHq8RDpKN7ChzUj148lWw3Gcc6f5BgxPvRNfeN5H5cV2F3snsbFFNj
+         KMrQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@shopify.com header.s=m1 header.b=EQXeXKbv;
+       spf=pass (google.com: domain of bounces+2435018-01bd-hello=pixc.com@mailer.shopify.com designates 149.72.235.154 as permitted sender) smtp.mailfrom="bounces+2435018-01bd-hello=pixc.com@mailer.shopify.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=shopify.com
+Return-Path: <bounces+2435018-01bd-hello=pixc.com@mailer.shopify.com>
+Received: from o11.mailer.shopify.com (o11.mailer.shopify.com. [149.72.235.154])
+        by mx.google.com with ESMTPS id t12si899154pgj.352.2021.08.18.12.39.48
+        for <hello@pixc.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 12:39:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+2435018-01bd-hello=pixc.com@mailer.shopify.com designates 149.72.235.154 as permitted sender) client-ip=149.72.235.154;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@shopify.com header.s=m1 header.b=EQXeXKbv;
+       spf=pass (google.com: domain of bounces+2435018-01bd-hello=pixc.com@mailer.shopify.com designates 149.72.235.154 as permitted sender) smtp.mailfrom="bounces+2435018-01bd-hello=pixc.com@mailer.shopify.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=shopify.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shopify.com; h=from:subject:mime-version:reply-to:to:content-type: content-transfer-encoding; s=m1; bh=0m+ynqaJeziBhpXkCw1yK26Dcp/JhbWK+ODq3KKJ7jc=; b=EQXeXKbv7RSRNjxT2QBnaAWo09xndbWhxgqVeMDZOJITMtmLnOduaBvQ5VOcbjoJLf92 TU/2VpXc+DgQr3aGpkk3XzrV9HmaK0g+aErU/6MgAiF26gHZ2m8pcs/0vlWQhRv3q18Mj9 chgAa7vHx/ZWtKCQZDOraIyoyguDiFwNw=
+Received: by filterdrecv-56c7fd879d-hqzxh with SMTP id filterdrecv-56c7fd879d-hqzxh-1-611D6203-2F
+        2021-08-18 19:39:47.387604405 +0000 UTC m=+423057.416240058
+Received: from mailer.shopify.com (unknown) by ismtpd0172p1mdw1.sendgrid.net (SG) with ESMTP id GSpne9lWRJOstR5aJ-O3wA for <hello@pixc.com>; Wed, 18 Aug 2021 19:39:47.259 +0000 (UTC)
+Date: Wed, 18 Aug 2021 19:39:47 +0000 (UTC)
+From: MOMOFASHION <noreply@shopify.com>
+Message-ID: <611d6202da690_15a578652da@jobs-6ffbd476d9-6sc2j.mail>
+Subject: MOMOFASHION has a question about Photo Resize by Pixc
+Mime-Version: 1.0
+Reply-To: MOMOFASHION <info@momofashion.store>
+X-SG-EID: Xwkw/N2Env/HN07VJ5t6Gqj8wVhHOhQNP0dFrfJnPiU1fGk9c/QsVK3+J0pFml0mxt1hsTnDZdoVUyVEdyYAaaI6akeoMshekg5aMRwQrpMwkEMQHkMMTw+rzUomHJO7Rg+2KvYwIMa1Jr3opDR9/Eug/r+fIfNrqbIX06RL9+UEqM9Zd4LcLrFPIeKB54qToR5Rmc59QFQTMNhT47SdAlkIKmgf9PuBEtVa+2hhlBgtaho2b+tkwkStx3FwDHCK
+X-SG-ID: N2C25iY2uzGMFz6rgvQsb/Uf+Q9RgldzSAogmMLdp+XJM3tyF1gyu9NCDQfe9SmtcL5qYfE86be7IA2w9vFWF9fWx9k0xGsK97dtDph6t8cRbhE8Oq8OtSVMQ0Y9aIBtsHO5HlhIrRLG4hQm7JFUDiDQGS+0rKcI0Rn0Sirs1+JNxlfHQDth7n37XOEZNldD
+To: hello@pixc.com
+X-Entity-ID: 4Od4MoTCfsf4UpZZGIdkZA==
+Content-Type: multipart/alternative; boundary="--==_mimepart_611d6202da0eb_15a57865148"; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+----==_mimepart_611d6202da0eb_15a57865148
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+*****************************************************************
+
+MOMOFASHION (momoify.myshopify.com) sent you a message about
+
+Photo Resize by Pixc
+
+*****************************************************************
+
+
+
+MOMOFASHION <info@momofashion.store>
+
+------------------------------------------
+
+
+
+Photoes have different size and i can't edit aspect ratio. I need
+
+to resize all photo to be in same." without upgrading "
+
+
+
+=C2=A9 Shopify | 151 O=E2=80=99Connor Street, Ottawa ON, K2P
+
+2L8
+----==_mimepart_611d6202da0eb_15a57865148
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html lang=3D"en-US" style=3D"font-size: 15px; font-weight: 400; line-heigh=
+t: 20px; text-transform: initial; letter-spacing: initial; color: var(--p-t=
+ext, #212b36); font-family: -apple-system, BlinkMacSystemFont, San Francisc=
+o, Segoe UI, Roboto, Helvetica Neue, sans-serif; margin: 0; padding: 0;">
+
+  <head>
+
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+
+    <meta name=3D"viewport" content=3D"user-scalable=3Dno, width=3Ddevice-w=
+idth, initial-scale=3D1, maximum-scale=3D1">
+
+    <meta name=3D"referrer" content=3D"never">
+
+
+
+   =20
+
+    <!-- Styles specific to Outlook 2007, 2010 and 2013 -->
+
+      <!--[if gte mso 9]>
+
+        <style>
+
+          ul,
+
+          ol {
+
+           margin: 0 0 0 24px;
+
+          }
+
+
+
+          dd {
+
+            text-indent: -3em;
+
+          }
+
+        </style>
+
+    <![endif]-->
+
+    <style data-premailer=3D"ignore">
+
+      .apple-link a {
+
+        color: inherit !important;
+
+        text-decoration: none !important;
+
+      }
+
+
+
+      @media screen and (max-width: 470px) {
+
+        .mail-body > tbody > tr > td {
+
+          padding-top: 0 !important;
+
+        }
+
+
+
+        .mail-body__content > tbody > tr > td {
+
+          border-radius: 0;
+
+          border-top: 0 !important;
+
+          border-right: 0 !important;
+
+          border-left: 0 !important;
+
+        }
+
+
+
+        .mail-sections > tbody > tr > td {
+
+          padding-right: 0 !important;
+
+          padding-left: 0 !important;
+
+        }
+
+
+
+        .mail-section > tbody > tr > td:first-child {
+
+          padding-left: 20px !important;
+
+        }
+
+
+
+        .mail-section > tbody > tr > td:last-child {
+
+          padding-right: 20px !important;
+
+        }
+
+
+
+        .mail-help-center > tbody > tr > td:first-child {
+
+          padding-left: 20px !important;
+
+        }
+
+
+
+        .mail-help-center > tbody > tr > td:last-child {
+
+          padding-right: 20px !important;
+
+        }
+
+      }
+
+    </style>
+
+  <style>body {
+
+margin: 0 !important; padding: 0;
+
+}
+
+body {
+
+height: 100%; width: 100%;
+
+}
+
+img {
+
+border: 0; height: auto; line-height: 0; outline: none; text-decoration: no=
+ne; vertical-align: top; -ms-interpolation-mode: bicubic;
+
+}
+
+.ReadMsgBody {
+
+width: 100%;
+
+}
+
+.ExternalClass {
+
+width: 100%;
+
+}
+
+.ExternalClass {
+
+line-height: 100%;
+
+}
+
+body {
+
+-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-=
+adjust: 100%; text-size-adjust: 100%;
+
+}
+
+body {
+
+font-size: 15px; font-weight: 400; line-height: 20px; text-transform: initi=
+al; letter-spacing: initial; color: var(--p-text, #212b36); font-family: -a=
+pple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica=
+ Neue, sans-serif;
+
+}
+
+.star-rating__input-group:hover svg path {
+
+fill: #eec200;
+
+}
+
+.star-rating__input:hover~.star-rating__input svg path {
+
+fill: #dfe3e8;
+
+}
+
+@media screen and (min-width: breakpoint(display-text)) {
+
+  html {
+
+    font-size: 14px;
+
+  }
+
+  body {
+
+    font-size: 14px;
+
+  }
+
+  pre {
+
+    font-size: 14px;
+
+  }
+
+  h1 {
+
+    font-size: 14px;
+
+  }
+
+  h2 {
+
+    font-size: 14px;
+
+  }
+
+  h3 {
+
+    font-size: 14px;
+
+  }
+
+  h4 {
+
+    font-size: 14px;
+
+  }
+
+  h5 {
+
+    font-size: 14px;
+
+  }
+
+  h6 {
+
+    font-size: 14px;
+
+  }
+
+  .mail-button {
+
+    font-size: 14px;
+
+  }
+
+  .mail-button-secondary {
+
+    font-size: 14px;
+
+  }
+
+  .star-rating legend {
+
+    font-size: 14px;
+
+  }
+
+}
+
+@media screen and (max-width: 650px) {
+
+  .email-container {
+
+    width: 100% !important; margin: auto !important; box-shadow: 0px !impor=
+tant; border-radius: 0px !important; -webkit-box-shadow: 0px !important; -w=
+ebkit-border-radius: 0px !important; -moz-border-radius: 0px !important;
+
+  }
+
+  u~div {
+
+    min-width: 100vw;
+
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+
+  u~div .full-wrap {
+
+    min-width: 100vw;
+
+  }
+
+  div>u~div .full-wrap {
+
+    min-width: 100%;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+  <body style=3D"height: 100%; width: 100%; -webkit-text-size-adjust: 100%;=
+ -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-adjust:=
+ 100%; font-size: 15px; font-weight: 400; line-height: 20px; text-transform=
+: initial; letter-spacing: initial; color: var(--p-text, #212b36); font-fam=
+ily: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, He=
+lvetica Neue, sans-serif; margin: 0; padding: 0;">
+
+    <table class=3D"mail-priority-indicator mail-priority-indicator--low" s=
+tyle=3D"width: 100%; border-collapse: collapse; border-spacing: 0; -webkit-=
+text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: =
+100%; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; mar=
+gin-top: 0; margin-bottom: 0; padding: 0;" cellpadding=3D"0" cellspacing=3D=
+"0"><tbody><tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td s=
+tyle=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-te=
+xt-size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso-tabl=
+e-rspace: 0; margin-top: 0; margin-bottom: 0; border-top-style: solid; heig=
+ht: 0; border-top-color: #dfe3e8; padding: 0; border-width: 5px 0 0;"></td>=
+</tr></tbody></table>
+
+<table class=3D"mail-body" style=3D"width: 100%; border-collapse: collapse;=
+ border-spacing: 0; -webkit-text-size-adjust: 100%; -moz-text-size-adjust: =
+100%; -ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace:=
+ 0; mso-table-rspace: 0; margin-top: 0; margin-bottom: 0; padding: 0;" cell=
+padding=3D"0" cellspacing=3D"0"><tbody><tr style=3D"margin-top: 0; margin-b=
+ottom: 0; padding: 0;">
+
+<td style=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -=
+ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso=
+-table-rspace: 0; margin-top: 0; margin-bottom: 0; padding: 20px 0; border:=
+ 0;"></td>
+
+<td style=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -=
+ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso=
+-table-rspace: 0; margin-top: 0; margin-bottom: 0; width: 470px; padding: 2=
+0px 0; border: 0;"><table class=3D"mail-body__content" align=3D"center" sty=
+le=3D"width: 100%; border-collapse: initial; border-spacing: 0; -webkit-tex=
+t-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100=
+%; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin=
+-top: 0; margin-bottom: 0; padding: 0;" cellpadding=3D"0" cellspacing=3D"0"=
+><tbody><tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td styl=
+e=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-=
+size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-r=
+space: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: var(--p-=
+border-radius-base, 3px); border-top-right-radius: var(--p-border-radius-ba=
+se, 3px); border-bottom-left-radius: var(--p-border-radius-base, 3px); bord=
+er-bottom-right-radius: var(--p-border-radius-base, 3px); padding: 0; borde=
+r: 1px solid #dfe3e8;"><table class=3D"mail-sections" style=3D"width: 100%;=
+ border-collapse: collapse; border-spacing: 0; -webkit-text-size-adjust: 10=
+0%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-adju=
+st: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margin-b=
+ottom: 0; padding: 0;" cellpadding=3D"0" cellspacing=3D"0"><tbody><tr style=
+=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td style=3D"-webkit-text=
+-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%=
+; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-=
+top: 0; margin-bottom: 0; padding: 16px; border: 0;">
+
+<table class=3D"mail-section mail-section--type-primary" style=3D"width: 10=
+0%; border-collapse: collapse; border-spacing: 0; -webkit-text-size-adjust:=
+ 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-a=
+djust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margi=
+n-bottom: 0; padding: 0;" cellpadding=3D"0" cellspacing=3D"0"><tbody><tr st=
+yle=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td style=3D"-webkit-t=
+ext-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 1=
+00%; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; marg=
+in-top: 0; margin-bottom: 0; padding: 0 8px 16px; border: 0;"><table style=
+=3D"width: 100%; border-collapse: collapse; border-spacing: 0; -webkit-text=
+-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%=
+; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-=
+top: 0; margin-bottom: 0; padding: 0;" cellpadding=3D"0" cellspacing=3D"0">=
+<tbody><tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td style=
+=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-s=
+ize-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rs=
+pace: 0; margin-top: 0; margin-bottom: 0; padding: 0; border: 0;"><h1 style=
+=3D"margin-top: 0; margin-bottom: 0; font-size: 15px; font-weight: 400; lin=
+e-height: 20px; text-transform: initial; letter-spacing: initial; padding: =
+0;">MOMOFASHION (momoify.myshopify.com) sent you a message about Photo Resi=
+ze by Pixc</h1></td></tr></tbody></table></td></tr></tbody></table>
+
+ =20
+
+  <table class=3D"mail-section" style=3D"width: 100%; border-collapse: coll=
+apse; border-spacing: 0; -webkit-text-size-adjust: 100%; -moz-text-size-adj=
+ust: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-ls=
+pace: 0; mso-table-rspace: 0; margin-top: 0; margin-bottom: 0; padding: 0;"=
+ cellpadding=3D"0" cellspacing=3D"0"><tbody><tr style=3D"margin-top: 0; mar=
+gin-bottom: 0; padding: 0;"><td style=3D"-webkit-text-size-adjust: 100%; -m=
+oz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 10=
+0%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margin-bottom:=
+ 0; border-top-color: #dfe3e8; border-top-style: solid; padding: 16px 8px 0=
+; border-width: 1px 0 0;">
+
+    <table class=3D"mail-media mail-media--type-comment" style=3D"width: 10=
+0%; border-collapse: collapse; border-spacing: 0; -webkit-text-size-adjust:=
+ 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-a=
+djust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margi=
+n-bottom: 0; table-layout: auto; padding: 0;" cellpadding=3D"0" cellspacing=
+=3D"0"><tbody><tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;">
+
+<td width=3D"40" class=3D"mail-media__thumbnail" style=3D"-webkit-text-size=
+-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; tex=
+t-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: =
+0; margin-bottom: 0; width: 40px; padding: 0 15px 0 0; border: 0;" align=3D=
+"center" valign=3D"top"><img alt=3D"" src=3D"https://proxy.shopifycdn.com/2=
+5d49556d1c8841cda9da90456e48358ce7b739330d8c371b9eab27ca5e9c4d6/www.gravata=
+r.com/avatar/2b39a6414afa5b94189d6b38ff27abab.jpg?default=3Dmm&amp;size=3D4=
+0" style=3D"height: auto; line-height: 0; outline: none; text-decoration: n=
+one; vertical-align: top; -ms-interpolation-mode: bicubic; border-radius: 5=
+0%; width: auto; max-height: 40px; max-width: 40px; -o-object-fit: cover; o=
+bject-fit: cover; border: 0;"></td>
+
+<td style=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -=
+ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso=
+-table-rspace: 0; margin-top: 0; margin-bottom: 0; padding: 0; border: 0;" =
+valign=3D"top"><table class=3D"mail-media__description" style=3D"width: 100=
+%; border-collapse: collapse; border-spacing: 0; -webkit-text-size-adjust: =
+100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-ad=
+just: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margin=
+-bottom: 0; padding: 0;" cellpadding=3D"0" cellspacing=3D"0"><tbody>
+
+<tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td class=3D"mai=
+l-media__title" style=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adj=
+ust: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-ls=
+pace: 0; mso-table-rspace: 0; margin-top: 0; margin-bottom: 0; white-space:=
+ nowrap; padding: 0; border: 0;" valign=3D"top"><h3 style=3D"margin-top: 0;=
+ margin-bottom: 0; font-size: 15px; font-weight: 600; line-height: 20px; te=
+xt-transform: initial; letter-spacing: initial; padding: 0;">MOMOFASHION &l=
+t;info@momofashion.store&gt;</h3></td></tr>
+
+<tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;"><td colspan=3D"2=
+" class=3D"mail-media__details" style=3D"-webkit-text-size-adjust: 100%; -m=
+oz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 10=
+0%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margin-bottom:=
+ 0; padding: 0; border: 0;" valign=3D"top"><p style=3D"-webkit-text-size-ad=
+just: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-s=
+ize-adjust: 100%; margin-top: 0; margin-bottom: 0; padding: 0;">Photoes hav=
+e different size and i can't edit aspect ratio. I need to resize all photo =
+to be in same." without upgrading "</p></td></tr>
+
+</tbody></table></td>
+
+</tr></tbody></table>
+
+</td></tr></tbody></table>
+
+</td></tr></tbody></table></td></tr></tbody></table></td>
+
+<td style=3D"-webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -=
+ms-text-size-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso=
+-table-rspace: 0; margin-top: 0; margin-bottom: 0; padding: 20px 0; border:=
+ 0;"></td>
+
+</tr></tbody></table>
+
+    <footer>
+
+      <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"mail=
+-footer" style=3D"width: 100%; border-collapse: collapse; border-spacing: 0=
+; -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-siz=
+e-adjust: 100%; text-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspa=
+ce: 0; margin-top: 0; margin-bottom: 0; font-size: 10px; line-height: 14px;=
+ padding: 0;">
+
+        <tbody>
+
+          <tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;">
+
+            <td align=3D"center" valign=3D"bottom" style=3D"-webkit-text-si=
+ze-adjust: 100%; -moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; t=
+ext-size-adjust: 100%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top=
+: 0; margin-bottom: 0; padding: 0; border: 0;">
+
+              <img alt=3D"" width=3D"160" src=3D"https://cdn.shopify.com/sh=
+opifycloud/partners/assets/mailer/shopify_partners_logo-0590c33d8de2d0e20dd=
+8447dd4416ce22bf088e3303f3afe928df95249397bec.png" style=3D"height: auto; l=
+ine-height: 0; outline: none; text-decoration: none; vertical-align: top; -=
+ms-interpolation-mode: bicubic; border: 0;">
+
+            </td>
+
+          </tr>
+
+          <tr style=3D"margin-top: 0; margin-bottom: 0; padding: 0;">
+
+            <td align=3D"center" style=3D"-webkit-text-size-adjust: 100%; -=
+moz-text-size-adjust: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 1=
+00%; mso-table-lspace: 0; mso-table-rspace: 0; margin-top: 0; margin-bottom=
+: 0; padding: 8px 0 20px; border: 0;">
+
+              <p style=3D"-webkit-text-size-adjust: 100%; -moz-text-size-ad=
+just: 100%; -ms-text-size-adjust: 100%; text-size-adjust: 100%; margin-top:=
+ 0; margin-bottom: 0; padding: 0;">
+
+                <span class=3D"apple-link">
+
+                  =C2=A9 Shopify | 151 O=E2=80=99Connor Street, Ottawa ON, =
+K2P 2L8
+
+                </span>
+
+              </p>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </footer>
+
+  <img src=3D"https://u2435018.ct.sendgrid.net/wf/open?upn=3DCmwAv3oRa0AH4H=
+d1bWC6XwBnjdUBscB6Z9E93nzUSbH85jd4zFmZ2y0seLrpNNUdEApAk2R1XPe-2FrovVHLyegG3=
+PdD7Pf8Zi1xYOYvkPK-2FJ1qGF6xJF6ZM-2Fr6JIBqBB5PA-2BO1G-2FnyfMss-2FzrfSRrdrVj=
+eMF6F1E-2BKGQIqdzGHX8jXfFtZ18D7hekQO48BvPZw9EcaquOsxvo1eOm2dnhnAPnRYlj40kny=
+hDqQ9RxXQCofHfTUgyagiRrXXNVYheNmMG001nidDJNpAhSQGOLioya-2B1TFuug8smIGD0NGjW=
+436Bpu9tEcKznvsCGW6MJ-2FlUBNw4wQxv954M2-2B2yxXxYTQdXXd1smhbagloCXVsA2EKDt2L=
+-2B7Ou0f9KAOyGMZ8" alt=3D"" width=3D"1" height=3D"1" border=3D"0" style=3D"=
+height:1px !important;width:1px !important;border-width:0 !important;margin=
+-top:0 !important;margin-bottom:0 !important;margin-right:0 !important;marg=
+in-left:0 !important;padding-top:0 !important;padding-bottom:0 !important;p=
+adding-right:0 !important;padding-left:0 !important;"/></body>
+
+</html>
+
+
+----==_mimepart_611d6202da0eb_15a57865148--
